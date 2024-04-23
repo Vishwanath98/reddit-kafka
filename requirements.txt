@@ -1,4 +1,3 @@
 streamlit
-kafka
 kafka-python
 pandas
