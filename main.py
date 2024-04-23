@@ -2,7 +2,7 @@ import streamlit as st
 from kafka import KafkaProducer, KafkaConsumer
 import pandas as pd
 from datetime import datetime
-
+from json import dumps,loads
 # Function to send topic selection to Kafka
 def send_topic_to_kafka(topic):
     producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'],value_serializer= lambda x:
