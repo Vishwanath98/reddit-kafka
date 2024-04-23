@@ -10,15 +10,15 @@ def send_topic_to_kafka(topic):
     producer.send('technot', value=topic)
     #producer.flush()
     #producer.close()
-
+received_messages = []
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
     consumer = KafkaConsumer('technot',bootstrap_servers=['18.234.36.200:9092'], value_deserializer= lambda x:
                      loads(x.decode('utf-8')))#group_id='my-group', auto_offset_reset='earliest')
     st.write("Data received from Kafka:")
     for c in consumer:
-        print("Received message:", c.value) 
-        st.write('received message is '+c.value)
+        received_messages.append(c.value)  # Store message in list
+        st.write("Received message:", received_messages.value)
     #consumer.subscribe([topic])
     data = []
     #for message in consumer:
