@@ -17,6 +17,7 @@ def get_data_from_kafka(topic):
                      loads(x.decode('utf-8')))#group_id='my-group', auto_offset_reset='earliest')
     st.write("Data received from Kafka:")
     for c in consumer:
+        print("Received message:", c.value) 
         st.write('received message is '+c.value)
     #consumer.subscribe([topic])
     data = []
