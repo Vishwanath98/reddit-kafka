@@ -13,12 +13,14 @@ def send_topic_to_kafka(topic):
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
     consumer = KafkaConsumer(bootstrap_servers=['18.234.36.200:9092'], group_id='my-group', auto_offset_reset='earliest')
-    consumer.subscribe([topic])
+    for c in consumer:
+        st.print(c.value)
+    #consumer.subscribe([topic])
     data = []
-    for message in consumer:
-        data.append(eval(message.value.decode('utf-8')))
-    consumer.close()
-    return pd.DataFrame(data)
+    #for message in consumer:
+     #   data.append(eval(message.value.decode('utf-8')))
+    #consumer.close()
+    #return pd.DataFrame(data)
 
 # Function to visualize DataFrame in Streamlit
 def visualize_dataframe(df):
