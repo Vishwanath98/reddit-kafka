@@ -18,7 +18,7 @@ def get_data_from_kafka(topic):
     st.write("Data received from Kafka:")
     for c in consumer:
         received_messages.append(c.value)  # Store message in list
-        st.write("Received message:", received_messages.value)
+        st.write("Received message:", c.value)
     #consumer.subscribe([topic])
     data = []
     #for message in consumer:
