@@ -17,8 +17,10 @@ def get_data_from_kafka(topic):
     consumer = KafkaConsumer('technot', bootstrap_servers=['18.234.36.200:9092'], value_deserializer=lambda x: loads(x.decode('utf-8')))
     st.write("Data received from Kafka:")
     for message in consumer:
+        print('inside the loop')
+        st.write('inside the consumer loop')
         st.write("Received message:", message.value)
-
+    st.write('outside the consumer for loop')
 # Streamlit UI
 st.title('Reddit Sentiment Analysis')
 
