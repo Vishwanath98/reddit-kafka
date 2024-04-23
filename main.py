@@ -8,8 +8,8 @@ def send_topic_to_kafka(topic):
     producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'],value_serializer= lambda x:
                      dumps(x).encode('utf-8'))
     producer.send('technot', value=topic)
-    producer.flush()
-    producer.close()
+    #producer.flush()
+    #producer.close()
 
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
