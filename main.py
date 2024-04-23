@@ -5,8 +5,9 @@ from datetime import datetime
 
 # Function to send topic selection to Kafka
 def send_topic_to_kafka(topic):
-    producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'])
-    producer.send('technot', bytes(topic, 'utf-8'))
+    producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'],value_serializer= lambda x:
+                     dumps(x).encode('utf-8'))
+    producer.send('technot', value=topic)
     producer.flush()
     producer.close()
 
