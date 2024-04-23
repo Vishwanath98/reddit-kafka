@@ -39,7 +39,8 @@ if st.button('Submit'):
     # Waiting for Kafka to process data and return DataFrame
     st.write("Waiting for data from Kafka...")
     try:
-        df = get_data_from_kafka(topic_selection)
-        visualize_dataframe(df)
+        #df = 
+        get_data_from_kafka(topic_selection)
+        #visualize_dataframe(df)
     except:
         st.error("Error retrieving data from Kafka. Please try again later.")
