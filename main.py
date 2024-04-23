@@ -15,6 +15,7 @@ def send_topic_to_kafka(topic):
 def get_data_from_kafka(topic):
     consumer = KafkaConsumer('technot',bootstrap_servers=['18.234.36.200:9092'], value_deserializer= lambda x:
                      loads(x.decode('utf-8')))#group_id='my-group', auto_offset_reset='earliest')
+    st.write("Data received from Kafka:")
     for c in consumer:
         st.write(c.value)
     #consumer.subscribe([topic])
