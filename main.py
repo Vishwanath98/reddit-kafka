@@ -1,50 +1,39 @@
 import streamlit as st
 from kafka import KafkaProducer, KafkaConsumer
-import pandas as pd
-from datetime import datetime
-from json import dumps,loads
+from json import dumps, loads
+
 # Function to send topic selection to Kafka
 def send_topic_to_kafka(topic):
-    producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'],value_serializer= lambda x:
-                     dumps(x).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'], value_serializer=lambda x: dumps(x).encode('utf-8'))
     producer.send('technot', value=topic)
-    #producer.flush()
-    #producer.close()
-received_messages = []
+
+# Function to send keywords to Kafka
+def send_keywords_to_kafka(keywords):
+    producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'], value_serializer=lambda x: dumps(x).encode('utf-8'))
+    producer.send('technot', value=keywords)
+
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
-    consumer = KafkaConsumer('technot',bootstrap_servers=['18.234.36.200:9092'], value_deserializer= lambda x:
-                     loads(x.decode('utf-8')))#group_id='my-group', auto_offset_reset='earliest')
+    consumer = KafkaConsumer('technot', bootstrap_servers=['18.234.36.200:9092'], value_deserializer=lambda x: loads(x.decode('utf-8')))
     st.write("Data received from Kafka:")
-    for c in consumer:
-        received_messages.append(c.value)  # Store message in list
-        st.write("Received message:", c.value)
-    #consumer.subscribe([topic])
-    data = []
-    #for message in consumer:
-     #   data.append(eval(message.value.decode('utf-8')))
-    #consumer.close()
-    #return pd.DataFrame(data)
-
-# Function to visualize DataFrame in Streamlit
-def visualize_dataframe(df):
-    st.write(df)
+    for message in consumer:
+        st.write("Received message:", message.value)
 
 # Streamlit UI
 st.title('Reddit Sentiment Analysis')
 
 topic_selection = st.selectbox('Select a topic:', ('AI', 'POLITICS', 'SOFTWARE', 'SECURITY', 'BUSINESS'))
 
+keywords_input = st.text_input("Enter keywords (separated by comma):")
+
 if st.button('Submit'):
     send_topic_to_kafka(topic_selection)
-    received_messages
-    st.write("Topic selection sent to Kafka.")
-    
+    send_keywords_to_kafka(keywords_input.split(","))
+    st.write("Topic selection and keywords sent to Kafka.")
+
     # Waiting for Kafka to process data and return DataFrame
     st.write("Waiting for data from Kafka...")
     try:
-        #df = 
         get_data_from_kafka(topic_selection)
-        #visualize_dataframe(df)
     except:
         st.error("Error retrieving data from Kafka. Please try again later.")
