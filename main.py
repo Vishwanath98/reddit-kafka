@@ -5,16 +5,16 @@ from json import dumps, loads
 # Function to send topic selection to Kafka
 def send_topic_to_kafka(topic):
     producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'], value_serializer=lambda x: dumps(x).encode('utf-8'))
-    producer.send('technot_topic', value=topic)
+    producer.send('technot', value=topic)
 
 # Function to send keywords to Kafka
 def send_keywords_to_kafka(keywords):
     producer = KafkaProducer(bootstrap_servers=['18.234.36.200:9092'], value_serializer=lambda x: dumps(x).encode('utf-8'))
-    producer.send('technot_keywords', value=keywords)
+    producer.send('technot', value=keywords)
 
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
-    consumer = KafkaConsumer('technot_topic', bootstrap_servers=['18.234.36.200:9092'], value_deserializer=lambda x: loads(x.decode('utf-8')))
+    consumer = KafkaConsumer('technot', bootstrap_servers=['18.234.36.200:9092'], value_deserializer=lambda x: loads(x.decode('utf-8')))
     st.write("Data received from Kafka:")
     for message in consumer:
         st.write("Received message:", message.value)
