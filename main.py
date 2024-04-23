@@ -12,7 +12,8 @@ def send_topic_to_kafka(topic):
 
 # Function to retrieve data from Kafka based on selected topic
 def get_data_from_kafka(topic):
-    consumer = KafkaConsumer(bootstrap_servers=['18.234.36.200:9092'], group_id='my-group', auto_offset_reset='earliest')
+    consumer = KafkaConsumer(bootstrap_servers=['18.234.36.200:9092'], value_deserializer= lambda x:
+                     loads(x.decode('utf-8')))#group_id='my-group', auto_offset_reset='earliest')
     for c in consumer:
         st.print(c.value)
     #consumer.subscribe([topic])
