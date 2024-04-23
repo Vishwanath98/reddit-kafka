@@ -37,6 +37,7 @@ topic_selection = st.selectbox('Select a topic:', ('AI', 'POLITICS', 'SOFTWARE',
 
 if st.button('Submit'):
     send_topic_to_kafka(topic_selection)
+    received_messages
     st.write("Topic selection sent to Kafka.")
     
     # Waiting for Kafka to process data and return DataFrame
